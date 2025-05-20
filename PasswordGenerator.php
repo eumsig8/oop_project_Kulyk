@@ -5,7 +5,7 @@ class PasswordGenerator {
         $result[] = self::randomChars('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $upper);
         $result[] = self::randomChars('abcdefghijklmnopqrstuvwxyz', $lower);
         $result[] = self::randomChars('0123456789', $number);
-        $result[] = self::randomChars('!@#$%^&*()-_=', $special);
+        $result[] = self::randomChars('!@#$%^&*()-_=+', $special);
 
         $all = implode('', $result);
         $remaining = $length - strlen($all);
