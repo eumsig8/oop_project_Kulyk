@@ -1,8 +1,8 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'password_manager');
+define('DB_host', 'localhost');
+define('DB_user', 'root');
+define('DB_pass', '');
+define('DB_name', 'password_manager');
 
 define('AES_METHOD', 'AES-256-CBC');
 ?>
