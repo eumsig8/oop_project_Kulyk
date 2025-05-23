@@ -59,6 +59,35 @@ $savedPasswords = $passwordManager->listPasswords($_POST['login_password'] ?? ''
     <p><strong>Generated:</strong> <?= $generatedPassword ?></p>
 <?php endif; ?>
 
-<h2>You can change your password here, <?= htmlspecialchars($user['username']) ?>
+<hr>
+
+<h3>Save Password</h3>
+<form method="post">
+    Service Name: <input type="text" name="service" required><br>
+    Password to Save: <input type="text" name="password" required><br>
+    Your Login Password (to decrypt key): <input type="password" name="login_password" required><br>
+    <button type="submit" name="save_password">Save Password</button>
+</form>
+<p><?= $saveMessage ?></p>
+
+<hr>
+
+<h2>You can change password here, <?= htmlspecialchars($user['username']) ?>
     <a href="change_password.php">Change Password</a>
 </h2>
+
+<h3>Your Saved Passwords</h3>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Service</th>
+        <th>Password</th>
+        <th>Saved At</th>
+    </tr>
+    <?php foreach ($savedPasswords as $entry): ?>
+        <tr>
+            <td><?= htmlspecialchars($entry['name']) ?></td>
+            <td><?= htmlspecialchars($entry['password']) ?></td>
+            <td><?= $entry['created_at'] ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
