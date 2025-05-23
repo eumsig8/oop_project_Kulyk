@@ -75,6 +75,11 @@ $savedPasswords = $passwordManager->listPasswords($_POST['login_password'] ?? ''
 
 <hr>
 
+<h2>Welcome, <?= htmlspecialchars($user['username']) ?> | 
+    <a href="logout.php">Logout</a> | 
+    <a href="change_password.php">Change Password</a>
+</h2>
+
 <h3>Your Saved Passwords</h3>
 <table border="1" cellpadding="5">
     <tr>
