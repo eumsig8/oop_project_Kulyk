@@ -14,17 +14,16 @@ $message = "";
 $user = new User();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_SESSION['user']['username'];
+        $username = $_SESSION['user']['username'];
     $oldPass = $_POST['old_password'];
     $newPass = $_POST['new_password'];
 
     if ($user->changePassword($username, $oldPass, $newPass)) {
-        $message = "✅ Password changed successfully.";
+        $message = "Password changed successfully.";
     }
     } else {
-        $message = "❌ Failed to change password. Check your old password.";
+        $message = "Failed to change password. Check your old password.";
     }
-}
 ?>
 
 <h2>Change Password</h2>

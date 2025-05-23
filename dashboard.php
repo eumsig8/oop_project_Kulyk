@@ -15,9 +15,8 @@ $user = $_SESSION['user'];
 $passwordManager = new PasswordManager($user);
 $saveMessage = "";
 
-// Handle save form
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_password'])) {
-    $userPassword = $_POST['login_password']; // entered to decrypt AES key
+    $userPassword = $_POST['login_password'];
     $service = $_POST['service'];
     $pass = $_POST['password'];
 
@@ -28,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_password'])) {
     }
 }
 
-// Generate password if requested
 $generatedPassword = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_password'])) {
     $length = $_POST['length'];
@@ -40,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_password']))
     $generatedPassword = PasswordGenerator::generate($length, $upper, $lower, $nums, $special);
 }
 
-// Fetch saved passwords
 $savedPasswords = $passwordManager->listPasswords($_POST['login_password'] ?? '');
 ?>
 
@@ -62,36 +59,6 @@ $savedPasswords = $passwordManager->listPasswords($_POST['login_password'] ?? ''
     <p><strong>Generated:</strong> <?= $generatedPassword ?></p>
 <?php endif; ?>
 
-<hr>
-
-<h3>Save Password</h3>
-<form method="post">
-    Service Name: <input type="text" name="service" required><br>
-    Password to Save: <input type="text" name="password" required><br>
-    Your Login Password (to decrypt key): <input type="password" name="login_password" required><br>
-    <button type="submit" name="save_password">Save Password</button>
-</form>
-<p><?= $saveMessage ?></p>
-
-<hr>
-
-<h2>Welcome, <?= htmlspecialchars($user['username']) ?> | 
-    <a href="logout.php">Logout</a> | 
+<h2>You can change your password here, <?= htmlspecialchars($user['username']) ?>
     <a href="change_password.php">Change Password</a>
 </h2>
-
-<h3>Your Saved Passwords</h3>
-<table border="1" cellpadding="5">
-    <tr>
-        <th>Service</th>
-        <th>Password</th>
-        <th>Saved At</th>
-    </tr>
-    <?php foreach ($savedPasswords as $entry): ?>
-        <tr>
-            <td><?= htmlspecialchars($entry['name']) ?></td>
-            <td><?= htmlspecialchars($entry['password']) ?></td>
-            <td><?= $entry['created_at'] ?></td>
-        </tr>
-    <?php endforeach; ?>
-</table>
