@@ -1,6 +1,4 @@
 <?php
-require_once "Database.php";
-
 class User {
     private $db;
 
@@ -9,11 +7,17 @@ class User {
     }
 
     public function register($username, $password) {
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $key = openssl_encrypt($this->generateKey(), AES_METHOD, $password, 0, str_repeat('0', 16));
+        // Check if username already exists
+        $check = $this->db->prepare("SELECT id FROM users WHERE username = ?");
+        $check->execute([$username]);
+        if ($check->fetch()) return false;
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $aesKey = bin2hex(random_bytes(16)); // Generate 128-bit key
+        $encryptedKey = openssl_encrypt($aesKey, AES_METHOD, $password, 0, str_repeat("0", 16));
 
         $stmt = $this->db->prepare("INSERT INTO users (username, password, aes_key) VALUES (?, ?, ?)");
-        return $stmt->execute([$username, $hashed, $key]);
+        return $stmt->execute([$username, $hashedPassword, $encryptedKey]);
     }
 
     public function login($username, $password) {
@@ -27,9 +31,4 @@ class User {
         }
         return false;
     }
-
-    private function generateKey() {
-        return bin2hex(random_bytes(16));
-    }
 }
-?>
